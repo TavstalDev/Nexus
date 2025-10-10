@@ -7,6 +7,7 @@ plugins {
 
 val javaVersion: String by project
 val velocityVer: String by project
+val configurateVersion: String by project
 val mineCoreLibVersion: String by project
 val projectPackageName = "${project.group}.nexus"
 
@@ -28,11 +29,20 @@ repositories {
     maven {
         url = uri("https://jitpack.io") // JitPack repository
     }
+    maven {
+        name = "sponge"
+        url = uri("https://repo.spongepowered.org/maven/")
+    }
 }
 
 dependencies {
     compileOnly("com.velocitypowered:velocity-api:${velocityVer}")
     annotationProcessor("com.velocitypowered:velocity-api:${velocityVer}")
+
+    // Core Configurate API
+    implementation("org.spongepowered:configurate-core:${configurateVersion}")
+    // YAML Format Support
+    implementation("org.spongepowered:configurate-yaml:${configurateVersion}")
 }
 
 tasks {
@@ -46,6 +56,10 @@ tasks {
     }
     runVelocity {
         velocityVersion(velocityVer)
+    }
+    jar {
+        archiveBaseName.set("nexusProxy")
+        archiveClassifier.set("")
     }
 }
 
