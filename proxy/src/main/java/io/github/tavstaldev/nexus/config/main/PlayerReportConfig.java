@@ -1,0 +1,64 @@
+package io.github.tavstaldev.nexus.config.main;
+
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
+
+import java.util.Set;
+
+@ConfigSerializable
+public class PlayerReportConfig {
+    @Comment("Should the player report system be enabled?")
+    private boolean enabled;
+    @Comment("Commands that can be used to report players.")
+    private Set<String> commands;
+    @Comment("Cooldown in seconds between reports for each player.")
+    private int cooldown;
+    @Comment("Format of the report message. Use {reporter} for the reporter's name, {reported} for the reported player's name, {server} for the server the reporter is on, and {reason} for the reason.")
+    private String format;
+    @Comment("Permission node required to use the report command.")
+    private String permission;
+    @Comment("Permission node required to see report messages.")
+    private String notifyPermission;
+
+    public PlayerReportConfig() {
+        enabled = true;
+        commands = Set.of("report", "rt");
+        cooldown = 3;
+        format = "&8(&c<hover:show_text:'&cReport'>\uD83D\uDEA8</hover>&8) &8» &f{reporter} &7reported &f{reported} &7on &f{server} &7for &f{reason}";
+        permission = "nexus.report.use";
+        notifyPermission = "nexus.report.notify";
+    }
+
+    public PlayerReportConfig(boolean enabled, Set<String> commands, int cooldown, String format, String permission, String notifyPermission) {
+        this.enabled = enabled;
+        this.commands = commands;
+        this.cooldown = cooldown;
+        this.format = format;
+        this.permission = permission;
+        this.notifyPermission = notifyPermission;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public Set<String> getCommands() {
+        return commands;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public String getNotifyPermission() {
+        return notifyPermission;
+    }
+}
