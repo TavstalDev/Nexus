@@ -13,6 +13,7 @@ import io.github.tavstaldev.nexus.events.*;
 import io.github.tavstaldev.nexus.logger.PluginLogger;
 import io.github.tavstaldev.nexus.managers.CommandManager;
 import io.github.tavstaldev.nexus.managers.FavIconManager;
+import io.github.tavstaldev.nexus.managers.StaffManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
@@ -21,9 +22,9 @@ import java.util.Set;
 @Plugin(
     id = "nexusproxy",
     name = "nexusProxy",
-    version = "1.0.0"
-    ,url = "https://tavstaldev.github.io"
-    ,authors = {"Tavstal"}
+    version = NexusConstants.VERSION,
+    url = "https://tavstaldev.github.io",
+    authors = {"Tavstal"}
 )
 public class Nexus {
     public static Nexus plugin;
@@ -34,6 +35,7 @@ public class Nexus {
     private final ConfigurationLoader configurationLoader;
     private final FavIconManager favIconManager;
     private final CommandManager commandManager;
+    private final StaffManager staffManager;
 
     @Inject
     public Nexus(ProxyServer proxy, @DataDirectory @NotNull Path dataFolder) {
@@ -44,6 +46,7 @@ public class Nexus {
         configurationLoader = new ConfigurationLoader();
         favIconManager = new FavIconManager();
         commandManager = new CommandManager();
+        staffManager = new StaffManager();
     }
 
     @Subscribe
@@ -115,5 +118,9 @@ public class Nexus {
 
     public Set<Report> getReports() {
         return configurationLoader.getReports();
+    }
+
+    public StaffManager getStaffManager() {
+        return staffManager;
     }
 }
