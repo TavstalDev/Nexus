@@ -23,6 +23,18 @@ public class HubCommand extends CommandBase {
             return;
         }
 
-        // TODO
+        var lobbyServer = Nexus.plugin.getLobbyServerManager().getLobbyServer();
+        if (lobbyServer == null) {
+            MessageUtil.sendRichMsg(player, Nexus.plugin.getMessages().getNoLobbyServerSet());
+            return;
+        }
+
+        // TODO: Add lobby check
+        // Add Cooldown
+        // Add message
+
+        Nexus.plugin.getProxy().getScheduler().buildTask(Nexus.plugin, () -> {
+            player.createConnectionRequest(lobbyServer).fireAndForget();
+        });
     }
 }

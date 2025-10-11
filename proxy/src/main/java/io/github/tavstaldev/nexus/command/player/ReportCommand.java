@@ -5,6 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.velocitypowered.api.proxy.Player;
 import io.github.tavstaldev.nexus.Nexus;
 import io.github.tavstaldev.nexus.command.CommandBase;
+import io.github.tavstaldev.nexus.config.Report;
 import io.github.tavstaldev.nexus.util.ChatUtil;
 import io.github.tavstaldev.nexus.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
@@ -80,12 +81,17 @@ public class ReportCommand extends CommandBase {
         String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         String format = config.getFormat();
 
-        // TODO: Save report
+        String reporterName = player.getUsername();
+        String reportedName = reported.getUsername();
+        String serverName = player.getCurrentServer().isPresent() ? player.getCurrentServer().get().getServerInfo().getName() : "?????";
+
+        Nexus.plugin.getReports().add(new Report(reporterName, player.getUniqueId(), reportedName, reported.getUniqueId(), reason, serverName, System.currentTimeMillis()));
+        Nexus.plugin.getConfigurationLoader().saveReports();
 
         var msg = ChatUtil.buildMessage(format, Map.of(
-                "player", player.getUsername(),
-                "reported", reported.getUsername(),
-                "server", player.getCurrentServer().isPresent() ? player.getCurrentServer().get().getServerInfo().getName() : "?????",
+                "player", reporterName,
+                "reported", reportedName,
+                "server", serverName,
                 "reason", reason
         ));
         String staffPermission = config.getNotifyPermission();
