@@ -187,4 +187,11 @@ public class Messages {
         return playerReportSelf;
     }
     //#endregion
+
+    //#region Lobby
+    private String noLobbyServerSet = "%prefix% &cNo lobby server is set.";
+    public String getNoLobbyServerSet() {
+        return noLobbyServerSet;
+    }
+    //#endregion
 }
