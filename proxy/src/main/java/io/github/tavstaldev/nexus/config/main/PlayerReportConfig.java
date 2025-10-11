@@ -10,7 +10,7 @@ public class PlayerReportConfig {
     @Comment("Should the player report system be enabled?")
     private boolean enabled;
     @Comment("Commands that can be used to report players.")
-    private Set<String> commands;
+    private Set<String> aliases;
     @Comment("Cooldown in seconds between reports for each player.")
     private int cooldown;
     @Comment("Format of the report message. Use {reporter} for the reporter's name, {reported} for the reported player's name, {server} for the server the reporter is on, and {reason} for the reason.")
@@ -22,16 +22,16 @@ public class PlayerReportConfig {
 
     public PlayerReportConfig() {
         enabled = true;
-        commands = Set.of("report", "rt");
+        aliases = Set.of("report", "rt");
         cooldown = 3;
         format = "&8(&c<hover:show_text:'&cReport'>\uD83D\uDEA8</hover>&8) &8» &f{reporter} &7reported &f{reported} &7on &f{server} &7for &f{reason}";
         permission = "nexus.report.use";
         notifyPermission = "nexus.report.notify";
     }
 
-    public PlayerReportConfig(boolean enabled, Set<String> commands, int cooldown, String format, String permission, String notifyPermission) {
+    public PlayerReportConfig(boolean enabled, Set<String> aliases, int cooldown, String format, String permission, String notifyPermission) {
         this.enabled = enabled;
-        this.commands = commands;
+        this.aliases = aliases;
         this.cooldown = cooldown;
         this.format = format;
         this.permission = permission;
@@ -42,8 +42,8 @@ public class PlayerReportConfig {
         return enabled;
     }
 
-    public Set<String> getCommands() {
-        return commands;
+    public Set<String> getAliases() {
+        return aliases;
     }
 
     public int getCooldown() {

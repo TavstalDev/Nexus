@@ -35,20 +35,20 @@ public class Settings {
                 true,
                 Set.of("alert", "ac", "announce"),
                 "nexus.alert.use",
-                "&8(&c<hover:show_text:'&cAlert'>\uD83D\uDCE3</hover>&8) &8» &f{message}"
+                "&8(&c<hover:show_text:'&cAlert'>\uD83D\uDCE3</hover>&8) &8» &f%message%"
         );
         this.playerReport = new PlayerReportConfig(
                 true,
                 Set.of("report", "preport", "playerreport"),
                 3,
-                "&8(&c<hover:show_text:'&cJelentés'>\uD83D\uDEA8</hover>&8) &7{player} &8» &f{reported} &8- &7{reason}",
+                "&8(&c<hover:show_text:'&cJelentés'>\uD83D\uDEA8</hover>&8) &7%player% jelentette %reported%-t &8» &7%reason%",
                 "nexus.report.use",
                 "nexus.report.notify"
         );
         this.helpop = new HelpopConfig(
                 true,
-                Set.of("helpop", "hc", "seekhelp"),
-                "&e&l[HelpOp] &6{player} &7({server})&8: &f{message}",
+                Set.of("hc", "seekhelp", "sos", "staff", "admin"),
+                "&e&l[HelpOp]&r &6%player% &7(%server%)&8: &f%message%",
                 30,
                 "nexus.helpop.use",
                 "nexus.helpop.see"
@@ -61,7 +61,7 @@ public class Settings {
                         Set.of("staffchat", "sc", "schat"),
                         true,
                         "nexus.staffchat",
-                        "<hover:show_text:'&cStaff Chat'>&c&l[S]</hover>&r &7{player}&8: &f{message}"
+                        "<hover:show_text:'&cStaff Chat'>&c&l[S]</hover>&r &7%player%&8: &f%message%"
                 ),
                 new CustomChatConfig(
                         false,
@@ -70,11 +70,11 @@ public class Settings {
                         Set.of("adminchat", "ac", "achat"),
                         true,
                         "nexus.adminchat",
-                        "&8(&4<hover:show_text:'&4Admin Chat'>\uD83D\uDCBC</hover>&8) &7{player}&8: &f{message}"
+                        "&8(&4<hover:show_text:'&4Admin Chat'>\uD83D\uDCBC</hover>&8) &7%player%&8: &f%message%"
                 ));
         this.serverPinger = new ServerPingerConfig(
                 true,
-                List.of(new ServerMotdConfig(new ServerFavIconConfig(), "&e&lMesterMC &7- &dElosztó", "Survival, Kreatív, BedWars, SkyPvP")),
+                List.of(new ServerMotdConfig(new ServerFavIconConfig(), "&f&lMester&6&lMC&r  &eElosztó  &8[&61.21.х&8]", "&7ѕᴜʀᴠɪᴠᴀʟ, ʙᴇᴅᴡᴀʀѕ, ѕᴋʏᴘᴠᴘ, ᴋʀᴇᴀᴛíᴠ")),
                 new ServerSpooferConfig(),
                 new ServerFavIconConfig()
         );
