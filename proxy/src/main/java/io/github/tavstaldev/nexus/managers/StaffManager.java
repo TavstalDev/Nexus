@@ -11,6 +11,8 @@ public class StaffManager {
     private final Set<UUID> onlineStaff = new HashSet<>();
 
     public void addStaff(UUID uuid) {
+        if (onlineStaff.contains(uuid))
+            return;
         onlineStaff.add(uuid);
     }
 
