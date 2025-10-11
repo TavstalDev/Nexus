@@ -21,27 +21,26 @@ public class ConnectEventListener implements AwaitingEventExecutor<ServerConnect
 
     public @Nullable EventTask executeAsync(ServerConnectedEvent event) {
         return EventTask.async(() -> {
-            Nexus.plugin.getLogger().warn("0");
             if (event.getPreviousServer().isEmpty()) {
                 return;
             }
-            Nexus.plugin.getLogger().warn("1");
             Player player = event.getPlayer();
             if (!player.hasPermission("nexus.staff")) {
                 return;
             }
+            Nexus.plugin.getStaffManager().addStaff(player.getUniqueId());
             var rawMessage = Nexus.plugin.getMessages().getStaffSwitch();
+
             Component message = ChatUtil.buildMessage(rawMessage, Map.of(
                     "player", player.getUsername(),
                     "from", event.getPreviousServer().get().getServerInfo().getName(),
                     "to", event.getServer().getServerInfo().getName()
             ));
-            Nexus.plugin.getLogger().warn("2");
-            for (Player otherPlayer : Nexus.plugin.getProxy().getAllPlayers()) {
-                if (otherPlayer == player || !otherPlayer.hasPermission("nexus.staff"))
-                    continue;
-                otherPlayer.sendMessage(message);
-            }
+
+            Nexus.plugin.getProxy().getAllPlayers()
+                    .stream()
+                    .filter(x -> x != player && x.hasPermission("nexus.staff"))
+                    .forEach(x -> x.sendMessage(message));
         });
     }
 }

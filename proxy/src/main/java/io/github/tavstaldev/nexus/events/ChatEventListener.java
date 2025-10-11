@@ -31,10 +31,9 @@ public class ChatEventListener {
                 "player", player.getUsername(),
                 "message", event.getMessage()
         ));
-        for (Player players : Nexus.plugin.getProxy().getAllPlayers()) {
-            if (!players.hasPermission(toggledChat.getPermission()))
-                continue;
-            players.sendMessage(message);
-        }
+        var permission = toggledChat.getPermission();
+        Nexus.plugin.getProxy().getAllPlayers().stream()
+                .filter(x -> x.hasPermission(permission))
+                .forEach(x -> x.sendMessage(message));
     }
 }

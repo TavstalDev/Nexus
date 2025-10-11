@@ -43,15 +43,14 @@ public class PreConnectEventListener implements AwaitingEventExecutor<ServerPreC
                 return;
             }
 
-            var joinMessage = plugin.getMessages().getStaffJoinMessage();
-            for (Player otherPlayer : plugin.getProxy().getAllPlayers()) {
-                if (otherPlayer == player || !otherPlayer.hasPermission("nexus.staff"))
-                    continue;
-
-                MessageUtil.sendRichMsg(otherPlayer, joinMessage, Map.of(
-                        "player", player.getUsername()
-                ));
-            }
+            Nexus.plugin.getStaffManager().addStaff(player.getUniqueId());
+            var joinMessage = ChatUtil.buildMessage(plugin.getMessages().getStaffJoinMessage(), Map.of(
+                    "player", player.getUsername()
+            ));
+            plugin.getProxy().getAllPlayers()
+                    .stream()
+                    .filter(x -> x != player && x.hasPermission("nexus.staff"))
+                    .forEach(x -> x.sendMessage(joinMessage));
         });
     }
 }
