@@ -2,6 +2,7 @@ package io.github.tavstaldev.nexus.managers;
 
 import io.github.tavstaldev.nexus.Nexus;
 import io.github.tavstaldev.nexus.command.CommandBase;
+import io.github.tavstaldev.nexus.command.CustomChatCommand;
 import io.github.tavstaldev.nexus.command.player.HelpopCommand;
 import io.github.tavstaldev.nexus.command.player.HubCommand;
 import io.github.tavstaldev.nexus.command.player.NexusCommand;
@@ -36,8 +37,29 @@ public class CommandManager {
         }
         // Hub command
         registeredCommands.add(new HubCommand());
+        // Custom chat commands
+        var customChats = config.getCustomChats();
+        for (var customChat : customChats) {
+            if (customChat.isEnabled()) {
+                registeredCommands.add(new CustomChatCommand(
+                        customChat.getChatName(),
+                        customChat.getCommands().iterator().next(),
+                        customChat.getPermission(),
+                        customChat.getCommands().stream().skip(1).toArray(String[]::new)
+                ));
+            }
+        }
         // Staff list command
         registeredCommands.add(new StaffListCommand());
+        // Alert Command
+
+        // Maintenance Command
+
+        // Find player command
+
+        // Send player command
+
+
         for (CommandBase command : registeredCommands) {
             command.register();
         }
