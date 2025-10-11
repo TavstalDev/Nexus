@@ -13,11 +13,14 @@ import io.github.tavstaldev.nexus.events.*;
 import io.github.tavstaldev.nexus.logger.PluginLogger;
 import io.github.tavstaldev.nexus.managers.CommandManager;
 import io.github.tavstaldev.nexus.managers.FavIconManager;
+import io.github.tavstaldev.nexus.managers.LobbyServerManager;
 import io.github.tavstaldev.nexus.managers.StaffManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Plugin(
     id = "nexusproxy",
@@ -30,12 +33,13 @@ public class Nexus {
     public static Nexus plugin;
     private final ProxyServer proxy;
     private final Path dataFolder;
-    private ScheduledTask reportTask; // TODO: implement
+    private ScheduledTask reportCleanerTask;
     private final PluginLogger pluginLogger;
     private final ConfigurationLoader configurationLoader;
     private final FavIconManager favIconManager;
     private final CommandManager commandManager;
     private final StaffManager staffManager;
+    private final LobbyServerManager lobbyServerManager;
 
     @Inject
     public Nexus(ProxyServer proxy, @DataDirectory @NotNull Path dataFolder) {
@@ -47,6 +51,7 @@ public class Nexus {
         favIconManager = new FavIconManager();
         commandManager = new CommandManager();
         staffManager = new StaffManager();
+        lobbyServerManager = new LobbyServerManager();
     }
 
     @Subscribe
@@ -57,6 +62,14 @@ public class Nexus {
 
             commandManager.registerCommands();
             this.registerListeners();
+            final long expirationTime = Duration.ofDays(1).toMillis();
+            this.reportCleanerTask = this.proxy.getScheduler().buildTask(this, () -> {
+                Set<Report> reports = this.getReports();
+                final long currentTime = System.currentTimeMillis();
+                if (reports.removeIf(x -> currentTime - x.getTimestamp() > expirationTime)) {
+                    this.getConfigurationLoader().saveReports();
+                }
+            }).delay(1, TimeUnit.MINUTES).repeat(60, TimeUnit.MINUTES).schedule();
 
             pluginLogger.ok("nexusProxy v1.0.0 has been enabled!");
         }
@@ -69,8 +82,8 @@ public class Nexus {
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
-        if (this.reportTask != null)
-            this.reportTask.cancel();
+        if (this.reportCleanerTask != null)
+            this.reportCleanerTask.cancel();
         commandManager.unregisterCommands();
         pluginLogger.ok("nexusProxy v1.0.0 has been disabled!");
     }
@@ -82,6 +95,8 @@ public class Nexus {
         new ProxyPingEventListener().register();
         new ConnectEventListener().register();
         new DisconnectEventListener().register();
+        new ServerRegisteredEventListener().register();
+        new ServerUnregisteredEventListener().register();
     }
 
     public ProxyServer getProxy() {
@@ -122,5 +137,9 @@ public class Nexus {
 
     public StaffManager getStaffManager() {
         return staffManager;
+    }
+
+    public LobbyServerManager getLobbyServerManager() {
+        return lobbyServerManager;
     }
 }
