@@ -4,6 +4,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.List;
 
+@SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
 @ConfigSerializable
 public class Messages {
     //#region General
@@ -14,6 +15,9 @@ public class Messages {
     private String generalInvalidSyntax = "%prefix% &cInvalid command syntax. Use &e%syntax%&c.";
     private String generalErrorOccurred = "%prefix% &cAn error occurred while executing the command.";
     private String generalReloadComplete = "%prefix% &aConfiguration reloaded.";
+    private String generalCommandSyntax = "%prefix% &cUsage: &7/%command% %syntax%";
+    private String generalFeatureDisabled = "%prefix% &cThis feature is disabled.";
+    private String generalCooldown = "%prefix% &cYou must wait &e%time% &cseconds before using this command again.";
 
     public String getGeneralNoPermission() {
         return generalNoPermission;
@@ -41,6 +45,45 @@ public class Messages {
 
     public String getGeneralReloadComplete() {
         return generalReloadComplete;
+    }
+    public String getGeneralCommandSyntax() {
+        return generalCommandSyntax;
+    }
+
+    public String getGeneralFeatureDisabled() {
+        return generalFeatureDisabled;
+    }
+
+    public String getGeneralCooldown() {
+        return generalCooldown;
+    }
+    //#endregion
+
+    //#region Custom Chat
+    private String customChatNoPermission = "%prefix% &cYou do not have permission to use this chat.";
+    private String customChatToggleOn = "%prefix% &aYou have toggled &e%chat% &achat on.";
+    private String customChatToggleOff = "%prefix% &aYou have toggled &e%chat% &cchat off.";
+    private String customChatSwitchedTo = "%prefix% &aYou have switched to &e%chat% &achat.";
+    private String customChatToggleDisabled = "%prefix% &cToggling is disabled for this chat.";
+
+    public String getCustomChatNoPermission() {
+        return customChatNoPermission;
+    }
+
+    public String getCustomChatToggleOn() {
+        return customChatToggleOn;
+    }
+
+    public String getCustomChatToggleOff() {
+        return customChatToggleOff;
+    }
+
+    public String getCustomChatSwitchedTo() {
+        return customChatSwitchedTo;
+    }
+
+    public String getCustomChatToggleDisabled() {
+        return customChatToggleDisabled;
     }
     //#endregion
 
@@ -96,26 +139,52 @@ public class Messages {
     }
     //#endregion
 
-    //#region Custom Chat
-    private String customChatNoPermission = "%prefix% &cYou do not have permission to use this chat.";
-    private String customChatToggleOn = "%prefix% &aYou have toggled &e%chat% &achat on.";
-    private String customChatToggleOff = "%prefix% &aYou have toggled &e%chat% &cchat off.";
-    private String customChatSwitchedTo = "%prefix% &aYou have switched to &e%chat% &achat.";
+    //#region Staff List
+    private String staffListHeader = "&8&m                               ";
+    private String staffListFooter = "&8&m                               ";
+    private String staffListNoStaff = "&7There are no staff members online.";
+    private String staffListFormat = "&e%player% &7- &6%server%";
 
-    public String getCustomChatNoPermission() {
-        return customChatNoPermission;
+    public String getStaffListHeader() {
+        return staffListHeader;
     }
 
-    public String getCustomChatToggleOn() {
-        return customChatToggleOn;
+    public String getStaffListFooter() {
+        return staffListFooter;
     }
 
-    public String getCustomChatToggleOff() {
-        return customChatToggleOff;
+    public String getStaffListNoStaff() {
+        return staffListNoStaff;
     }
 
-    public String getCustomChatSwitchedTo() {
-        return customChatSwitchedTo;
+    public String getStaffListFormat() {
+        return staffListFormat;
+    }
+    //#endregion
+
+    //#region Nexus Information
+    private String nexusInfoHeader = "&8&m                               ";
+    private String nexusInfoFooter = "&8&m                               ";
+    private String nexusInfoContent = "&7Running &b&lNexus&r &bv%version%\n&7The core velocity management plugin of MesterMC.\n\n&7Developed by &bTavstal.";
+
+    public  String getNexusInfoHeader() {
+        return nexusInfoHeader;
+    }
+
+    public String getNexusInfoFooter() {
+        return nexusInfoFooter;
+    }
+
+    public String getNexusInfoContent() {
+        return nexusInfoContent;
+    }
+    //#endregion
+
+    //#region Player Report
+    private String playerReportSelf = "%prefix% &cYou cannot report yourself.";
+
+    public String getPlayerReportSelf() {
+        return playerReportSelf;
     }
     //#endregion
 }
