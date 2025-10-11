@@ -9,6 +9,7 @@ val javaVersion: String by project
 val velocityVer: String by project
 val configurateVersion: String by project
 val mineCoreLibVersion: String by project
+val guavaVersion: String by project
 val projectPackageName = "${project.group}.nexus"
 
 // Configure Java toolchain and compatibility settings
@@ -43,6 +44,8 @@ dependencies {
     implementation("org.spongepowered:configurate-core:${configurateVersion}")
     // YAML Format Support
     implementation("org.spongepowered:configurate-yaml:${configurateVersion}")
+    // Guava Caching
+    implementation("com.google.guava:guava:${guavaVersion}")
 }
 
 tasks {
