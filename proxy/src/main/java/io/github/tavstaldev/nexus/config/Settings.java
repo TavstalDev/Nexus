@@ -15,6 +15,8 @@ public class Settings {
     private final boolean debug;
     private final String prefix;
 
+    private final Set<String> lobbyServers;
+
     private final AntiCrashHandlerConfig antiCrashHandler;
 
     private final AlertConfig alert;
@@ -30,6 +32,7 @@ public class Settings {
     public Settings() {
         this.debug = false;
         this.prefix = "&3Nexus &8»&r";
+        this.lobbyServers = Set.of("lobby", "lobby2");
         this.antiCrashHandler = new AntiCrashHandlerConfig();
         this.alert = new AlertConfig(
                 true,
@@ -80,9 +83,10 @@ public class Settings {
         );
     }
 
-    public Settings(boolean debug, String prefix, AntiCrashHandlerConfig antiCrashHandler, AlertConfig alert, PlayerReportConfig playerReport, HelpopConfig helpop, Set<CustomChatConfig> customChats, ServerPingerConfig serverPinger) {
+    public Settings(boolean debug, String prefix, Set<String> lobbyServers, AntiCrashHandlerConfig antiCrashHandler, AlertConfig alert, PlayerReportConfig playerReport, HelpopConfig helpop, Set<CustomChatConfig> customChats, ServerPingerConfig serverPinger) {
         this.debug = debug;
         this.prefix = prefix;
+        this.lobbyServers = lobbyServers;
         this.antiCrashHandler = antiCrashHandler;
         this.alert = alert;
         this.playerReport = playerReport;
@@ -97,6 +101,10 @@ public class Settings {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public Set<String> getLobbyServers() {
+        return lobbyServers;
     }
 
     public AntiCrashHandlerConfig getAntiCrashHandler() {
