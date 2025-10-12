@@ -19,6 +19,7 @@ public class Messages {
     private String generalFeatureDisabled = "%prefix% &cThis feature is disabled.";
     private String generalCooldown = "%prefix% &cYou must wait &e%time% &cseconds before using this command again.";
     private String generalInvalidServer = "%prefix% &cThe specified server does not exist.";
+    private String generalInvalidNumber = "%prefix% &cThe provided value is not a valid number.";
 
     public String getGeneralNoPermission() {
         return generalNoPermission;
@@ -62,6 +63,10 @@ public class Messages {
     public String getGeneralInvalidServer() {
         return generalInvalidServer;
     }
+
+    public String getGeneralInvalidNumber() {
+        return generalInvalidNumber;
+    }
     //#endregion
 
     //#region Custom Chat
@@ -99,6 +104,12 @@ public class Messages {
             "&7Please try again later.",
             ""
     );
+    private String maintenancePlayerAdded = "%prefix% &aPlayer &e%player% &ahas been added to the maintenance allow list.";
+    private String maintenancePlayerRemoved = "%prefix% &aPlayer &e%player% &ahas been removed from the maintenance allow list.";
+    private String maintenancePlayerAlreadyAllowed = "%prefix% &cPlayer &e%player% &cis already in the maintenance allow list.";
+    private String maintenancePlayerNotAllowed = "%prefix% &cPlayer &e%player% &cis not in the maintenance allow list.";
+    private String maintenanceListEmpty = "%prefix% &cThe maintenance allow list is empty.";
+    private String maintenanceListFormat = "&e%player%";
 
     public String getMaintenanceAlreadyEnabled() {
         return maintenanceAlreadyEnabled;
@@ -118,6 +129,30 @@ public class Messages {
 
     public List<String> getMaintenanceKickMessage() {
         return maintenanceKickMessage;
+    }
+
+    public String getMaintenancePlayerAdded() {
+        return maintenancePlayerAdded;
+    }
+
+    public String getMaintenancePlayerRemoved() {
+        return maintenancePlayerRemoved;
+    }
+
+    public String getMaintenancePlayerAlreadyAllowed() {
+        return maintenancePlayerAlreadyAllowed;
+    }
+
+    public String getMaintenancePlayerNotAllowed() {
+        return maintenancePlayerNotAllowed;
+    }
+
+    public String getMaintenanceListEmpty() {
+        return maintenanceListEmpty;
+    }
+
+    public String getMaintenanceListFormat() {
+        return maintenanceListFormat;
     }
     //#endregion
 
