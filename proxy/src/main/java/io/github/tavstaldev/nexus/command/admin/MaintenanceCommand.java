@@ -18,8 +18,6 @@ public class MaintenanceCommand extends CommandBase {
         );
     }
 
-    // TODO
-
     @Override
     public void execute(final Invocation invocation) {
         var source = invocation.source();
@@ -103,21 +101,21 @@ public class MaintenanceCommand extends CommandBase {
 
                 var allowedPlayers = config.getPlayers().toArray(new MaintenancePlayer[0]);
                 if (allowedPlayers.length == 0) {
-                    MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceNoAllowedPlayers());
+                    MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceListEmpty());
                     return;
                 }
 
                 int itemsPerPage = 15;
-                int totalPages = (int) Math.ceil((double) allowedPlayers.size() / itemsPerPage);
+                int totalPages = (int) Math.ceil((double) allowedPlayers.length / itemsPerPage);
                 if (page > totalPages)
                     page = totalPages;
 
                 for (int i = 0; i < itemsPerPage; i++) {
                     int index = (page - 1) * itemsPerPage + i;
-                    if (index >= allowedPlayers.size())
+                    if (index >= allowedPlayers.length)
                         break;
                     String playerName = allowedPlayers[index].getName();
-                    MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceAllowedPlayerFormat(), Map.of(
+                    MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceListFormat(), Map.of(
                             "player", playerName
                     ));
                 }
@@ -125,14 +123,14 @@ public class MaintenanceCommand extends CommandBase {
             }
             case "on": {
                 if (config.isEnabled()) {
-                    MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceAlreadyOn());
+                    MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceAlreadyEnabled());
                     return;
                 }
 
                 config.setEnabled(true);
                 if (source instanceof Player player) {
                     if (!config.isPlayerAllowed(player)) {
-                        config.addPlayer(player, player);
+                        config.addPlayer(player.getUsername());
                     }
                 }
                 Nexus.plugin.getConfigurationLoader().saveMaintenanceConfig();
@@ -141,7 +139,7 @@ public class MaintenanceCommand extends CommandBase {
             }
             case "off": {
                 if (!config.isEnabled()) {
-                    MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceAlreadyOff());
+                    MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceAlreadyDisabled());
                     return;
                 }
 
