@@ -5,6 +5,8 @@ import io.github.tavstaldev.nexus.Nexus;
 import io.github.tavstaldev.nexus.command.CommandBase;
 import io.github.tavstaldev.nexus.util.MessageUtil;
 
+import java.util.Map;
+
 public class HubCommand extends CommandBase {
     public HubCommand() {
         super("hub",
@@ -23,18 +25,22 @@ public class HubCommand extends CommandBase {
             return;
         }
 
-        var lobbyServer = Nexus.plugin.getLobbyServerManager().getLobbyServer();
-        if (lobbyServer == null) {
-            MessageUtil.sendRichMsg(player, Nexus.plugin.getMessages().getNoLobbyServerSet());
+        var lobbyManager = Nexus.plugin.getLobbyServerManager();
+        var server = player.getCurrentServer().orElse(null);
+        if (server != null && lobbyManager.isLobbyServer(server.getServer())) {
+            MessageUtil.sendRichMsg(player, Nexus.plugin.getMessages().getLobbyAlreadyIn());
             return;
         }
 
-        // TODO: Add lobby check
-        // Add Cooldown
-        // Add message
+        var lobbyServer = lobbyManager.getLobbyServer();
+        if (lobbyServer == null) {
+            MessageUtil.sendRichMsg(player, Nexus.plugin.getMessages().getLobbyNotSet());
+            return;
+        }
 
+        MessageUtil.sendRichMsg(player, Nexus.plugin.getMessages().getLobbyTeleporting(), Map.of("server", lobbyServer.getServerInfo().getName()));
         Nexus.plugin.getProxy().getScheduler().buildTask(Nexus.plugin, () -> {
             player.createConnectionRequest(lobbyServer).fireAndForget();
-        });
+        }).schedule();
     }
 }
