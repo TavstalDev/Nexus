@@ -39,7 +39,7 @@ public class Nexus {
     private final FavIconManager favIconManager;
     private final CommandManager commandManager;
     private final StaffManager staffManager;
-    private final LobbyServerManager lobbyServerManager;
+    private LobbyServerManager lobbyServerManager;
 
     @Inject
     public Nexus(ProxyServer proxy, @DataDirectory @NotNull Path dataFolder) {
@@ -51,7 +51,6 @@ public class Nexus {
         favIconManager = new FavIconManager();
         commandManager = new CommandManager();
         staffManager = new StaffManager();
-        lobbyServerManager = new LobbyServerManager();
     }
 
     @Subscribe
@@ -59,6 +58,7 @@ public class Nexus {
         try {
             configurationLoader.loadAll();
             favIconManager.loadIcons();
+            lobbyServerManager = new LobbyServerManager(getConfig().getLobbyServers());
 
             commandManager.registerCommands();
             this.registerListeners();
@@ -95,8 +95,6 @@ public class Nexus {
         new ProxyPingEventListener().register();
         new ConnectEventListener().register();
         new DisconnectEventListener().register();
-        new ServerRegisteredEventListener().register();
-        new ServerUnregisteredEventListener().register();
     }
 
     public ProxyServer getProxy() {
