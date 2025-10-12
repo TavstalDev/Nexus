@@ -5,6 +5,7 @@ import io.github.tavstaldev.nexus.command.CommandBase;
 import io.github.tavstaldev.nexus.command.CustomChatCommand;
 import io.github.tavstaldev.nexus.command.admin.AlertCommand;
 import io.github.tavstaldev.nexus.command.admin.FindPlayerCommand;
+import io.github.tavstaldev.nexus.command.admin.MaintenanceCommand;
 import io.github.tavstaldev.nexus.command.admin.SendPlayerCommand;
 import io.github.tavstaldev.nexus.command.player.HelpopCommand;
 import io.github.tavstaldev.nexus.command.player.HubCommand;
@@ -60,7 +61,7 @@ public class CommandManager {
             registeredCommands.add(new AlertCommand(alertConfig.getPermission(), alertConfig.getAliases().toArray(new String[0])));
         }
         // Maintenance Command
-
+        registeredCommands.add(new MaintenanceCommand());
         // Find player command
         registeredCommands.add(new FindPlayerCommand());
         // Send player command
