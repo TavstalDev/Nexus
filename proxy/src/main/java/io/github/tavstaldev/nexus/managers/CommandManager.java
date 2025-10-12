@@ -3,6 +3,9 @@ package io.github.tavstaldev.nexus.managers;
 import io.github.tavstaldev.nexus.Nexus;
 import io.github.tavstaldev.nexus.command.CommandBase;
 import io.github.tavstaldev.nexus.command.CustomChatCommand;
+import io.github.tavstaldev.nexus.command.admin.AlertCommand;
+import io.github.tavstaldev.nexus.command.admin.FindPlayerCommand;
+import io.github.tavstaldev.nexus.command.admin.SendPlayerCommand;
 import io.github.tavstaldev.nexus.command.player.HelpopCommand;
 import io.github.tavstaldev.nexus.command.player.HubCommand;
 import io.github.tavstaldev.nexus.command.player.NexusCommand;
@@ -52,13 +55,16 @@ public class CommandManager {
         // Staff list command
         registeredCommands.add(new StaffListCommand());
         // Alert Command
-
+        var alertConfig = config.getAlert();
+        if (alertConfig.isEnabled()) {
+            registeredCommands.add(new AlertCommand(alertConfig.getPermission(), alertConfig.getAliases().toArray(new String[0])));
+        }
         // Maintenance Command
 
         // Find player command
-
+        registeredCommands.add(new FindPlayerCommand());
         // Send player command
-
+        registeredCommands.add(new SendPlayerCommand());
 
         for (CommandBase command : registeredCommands) {
             command.register();
