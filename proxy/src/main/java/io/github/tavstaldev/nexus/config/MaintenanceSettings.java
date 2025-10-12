@@ -35,15 +35,23 @@ public class MaintenanceSettings {
         return players;
     }
 
-    public void addPlayer(Player player, Player adder) {
-        players.add(new MaintenancePlayer(player.getUniqueId(), player.getUsername(), adder.getUsername(), System.currentTimeMillis()));
+    public void addPlayer(String player, Player adder) {
+        players.add(new MaintenancePlayer(player, adder.getUsername(), System.currentTimeMillis()));
     }
 
-    public void removePlayer(Player player) {
-        players.removeIf(p -> p.getUuid().equals(player.getUniqueId()));
+    public void addPlayer(String player) {
+        players.add(new MaintenancePlayer(player, "console", System.currentTimeMillis()));
+    }
+
+    public void removePlayer(String player) {
+        players.removeIf(p -> p.getName().equals(player));
     }
 
     public boolean isPlayerAllowed(Player player) {
-        return players.stream().anyMatch(p -> p.getUuid().equals(player.getUniqueId()));
+        return players.stream().anyMatch(p -> p.getName().equals(player.getUsername()));
+    }
+
+    public boolean isPlayerAllowed(String playerName) {
+        return players.stream().anyMatch(p -> p.getName().equals(playerName));
     }
 }
