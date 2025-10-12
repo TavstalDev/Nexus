@@ -18,6 +18,7 @@ public class Messages {
     private String generalCommandSyntax = "%prefix% &cUsage: &7/%command% %syntax%";
     private String generalFeatureDisabled = "%prefix% &cThis feature is disabled.";
     private String generalCooldown = "%prefix% &cYou must wait &e%time% &cseconds before using this command again.";
+    private String generalInvalidServer = "%prefix% &cThe specified server does not exist.";
 
     public String getGeneralNoPermission() {
         return generalNoPermission;
@@ -57,6 +58,10 @@ public class Messages {
     public String getGeneralCooldown() {
         return generalCooldown;
     }
+
+    public String getGeneralInvalidServer() {
+        return generalInvalidServer;
+    }
     //#endregion
 
     //#region Custom Chat
@@ -64,7 +69,6 @@ public class Messages {
     private String customChatToggleOn = "%prefix% &aYou have toggled &e%chat% &achat on.";
     private String customChatToggleOff = "%prefix% &aYou have toggled &e%chat% &cchat off.";
     private String customChatSwitchedTo = "%prefix% &aYou have switched to &e%chat% &achat.";
-    private String customChatToggleDisabled = "%prefix% &cToggling is disabled for this chat.";
 
     public String getCustomChatNoPermission() {
         return customChatNoPermission;
@@ -80,10 +84,6 @@ public class Messages {
 
     public String getCustomChatSwitchedTo() {
         return customChatSwitchedTo;
-    }
-
-    public String getCustomChatToggleDisabled() {
-        return customChatToggleDisabled;
     }
     //#endregion
 
@@ -188,10 +188,42 @@ public class Messages {
     }
     //#endregion
 
+    //#region Player Find
+    private String findPlayerFormat = "%prefix% &a%player% is on &e%server%&a.";
+    private String findPlayerUnknown = "%prefix% &cCould not determine the server of %player%.";
+
+    public String getFindPlayerFormat() {
+        return findPlayerFormat;
+    }
+
+    public String getFindPlayerUnknown() {
+        return findPlayerUnknown;
+    }
+    //#endregion
+
+    //#region Player Send
+    private String sendPlayerTarget = "%prefix% &aYou have been sent to &e%server%&a.";
+    private String sendPlayerSender = "%prefix% &aYou have sent &e%player% &ato &e%server%&a.";
+    public String getSendPlayerTarget() {
+        return sendPlayerTarget;
+    }
+    public String getSendPlayerSender() {
+        return sendPlayerSender;
+    }
+    //#endregion
+
     //#region Lobby
-    private String noLobbyServerSet = "%prefix% &cNo lobby server is set.";
-    public String getNoLobbyServerSet() {
-        return noLobbyServerSet;
+    private String lobbyNotSet = "%prefix% &cNo lobby server is set.";
+    private String lobbyAlreadyIn = "%prefix% &cYou are already in a lobby server.";
+    private String lobbyTeleporting = "%prefix% &aConnecting you to %server%...";
+    public String getLobbyNotSet() {
+        return lobbyNotSet;
+    }
+    public String getLobbyAlreadyIn() {
+        return lobbyAlreadyIn;
+    }
+    public String getLobbyTeleporting() {
+        return lobbyTeleporting;
     }
     //#endregion
 }
