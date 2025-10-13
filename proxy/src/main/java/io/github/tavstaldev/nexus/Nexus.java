@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Plugin(
-    id = "nexusproxy",
+    id = "nexus",
     name = "nexusProxy",
     version = NexusConstants.VERSION,
     url = "https://tavstaldev.github.io",
