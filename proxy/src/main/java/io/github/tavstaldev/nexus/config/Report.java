@@ -7,28 +7,28 @@ import java.util.UUID;
 @ConfigSerializable
 public class Report {
     private final String reporterName;
-    private final UUID reporterUUID;
+    private final UUID reporterUuid;
     private final String targetName;
-    private final UUID targetUUID;
+    private final UUID targetUuid;
     private final String reason;
     private final String server;
     private final long timestamp;
 
     public Report() {
         this.reporterName = "Unknown";
-        this.reporterUUID = UUID.randomUUID();
+        this.reporterUuid = UUID.randomUUID();
         this.targetName = "Unknown";
-        this.targetUUID = UUID.randomUUID();
+        this.targetUuid = UUID.randomUUID();
         this.reason = "No reason provided";
         this.server = "Unknown";
         this.timestamp = System.currentTimeMillis();
     }
 
-    public Report(String reporterName, UUID reporterUUID, String targetName, UUID targetUUID, String reason, String server, long timestamp) {
+    public Report(String reporterName, UUID reporterUuid, String targetName, UUID targetUuid, String reason, String server, long timestamp) {
         this.reporterName = reporterName;
-        this.reporterUUID = reporterUUID;
+        this.reporterUuid = reporterUuid;
         this.targetName = targetName;
-        this.targetUUID = targetUUID;
+        this.targetUuid = targetUuid;
         this.reason = reason;
         this.server = server;
         this.timestamp = timestamp;
@@ -39,7 +39,7 @@ public class Report {
     }
 
     public UUID getReporterUUID() {
-        return reporterUUID;
+        return reporterUuid;
     }
 
     public String getTargetName() {
@@ -47,7 +47,7 @@ public class Report {
     }
 
     public UUID getTargetUUID() {
-        return targetUUID;
+        return targetUuid;
     }
 
     public String getReason() {

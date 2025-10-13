@@ -9,6 +9,8 @@ import java.util.Set;
 public class PlayerReportConfig {
     @Comment("Should the player report system be enabled?")
     private boolean enabled;
+    @Comment("Should staff be notified of reports when they log in?")
+    private boolean notifyOnLogin;
     @Comment("Commands that can be used to report players.")
     private Set<String> aliases;
     @Comment("Cooldown in seconds between reports for each player.")
@@ -24,6 +26,7 @@ public class PlayerReportConfig {
 
     public PlayerReportConfig() {
         enabled = true;
+        notifyOnLogin = true;
         aliases = Set.of("report", "rt");
         cooldown = 3;
         format = "&8(&c<hover:show_text:'&cReport'>\uD83D\uDEA8</hover>&8) &8» &f{reporter} &7reported &f{reported} &7on &f{server} &7for &f{reason}";
@@ -32,8 +35,9 @@ public class PlayerReportConfig {
         reportTemplates = Set.of("Griefing", "Cheating", "Harassment", "Spamming", "Other");
     }
 
-    public PlayerReportConfig(boolean enabled, Set<String> aliases, int cooldown, String format, String permission, String notifyPermission, Set<String> reportTemplates) {
+    public PlayerReportConfig(boolean enabled, boolean notifyOnLogin, Set<String> aliases, int cooldown, String format, String permission, String notifyPermission, Set<String> reportTemplates) {
         this.enabled = enabled;
+        this.notifyOnLogin = notifyOnLogin;
         this.aliases = aliases;
         this.cooldown = cooldown;
         this.format = format;
@@ -44,6 +48,10 @@ public class PlayerReportConfig {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public boolean isNotifyOnLogin() {
+        return notifyOnLogin;
     }
 
     public Set<String> getAliases() {

@@ -38,13 +38,14 @@ public class Settings {
                 true,
                 Set.of("alert", "ac", "announce"),
                 "nexus.alert.use",
-                "&8(&c<hover:show_text:'&cNetwork Alert'>Alert</hover>&8) &8» &f%message%"
+                "&c<hover:show_text:'&cNetwork Alert'>Alert</hover> &8» &f%message%"
         );
         this.playerReport = new PlayerReportConfig(
                 true,
+                true,
                 Set.of("report", "preport", "playerreport"),
                 3,
-                "&8(&c<hover:show_text:'&cJelentés'>Report</hover>&8) &7%player% jelentette %reported%-t &8» &7%reason%",
+                "&4&l[<hover:show_text:'&cJelentés'>Report</hover>]&r &2%player% &ajelentette &2%reported%&a-t &8» &7%reason%",
                 "nexus.report.use",
                 "nexus.report.notify",
                 Set.of("Griefing", "Cheating", "Harassment", "Spamming", "Other")
@@ -74,7 +75,7 @@ public class Settings {
                         Set.of("adminchat", "ac", "achat"),
                         true,
                         "nexus.adminchat",
-                        "&8(&4<hover:show_text:'&4Admin Chat'>&4&l[A]</hover>&8) &7%player%&8: &f%message%"
+                        "<hover:show_text:'&4Admin Chat'>&4&l[A]</hover> &7%player%&8: &f%message%"
                 ));
         this.serverPinger = new ServerPingerConfig(
                 true,
