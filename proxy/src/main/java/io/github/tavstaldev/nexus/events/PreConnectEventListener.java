@@ -39,6 +39,18 @@ public class PreConnectEventListener implements AwaitingEventExecutor<ServerPreC
                 return;
             }
 
+            var reportConfig = Nexus.plugin.getConfig().getPlayerReport();
+            if (reportConfig.isEnabled() && reportConfig.isNotifyOnLogin() && player.hasPermission(reportConfig.getNotifyPermission())) {
+                var reports = Nexus.plugin.getReports();
+                if (reports.isEmpty()) {
+                    MessageUtil.sendRichMsg(player, plugin.getMessages().getPlayerReportEmpty());
+                }
+                else {
+                    MessageUtil.sendRichMsg(player, plugin.getMessages().getPlayerReportCount(),
+                            Map.of("count", String.valueOf(reports.size())));
+                }
+            }
+
             if (!player.hasPermission("nexus.staff")) {
                 return;
             }
