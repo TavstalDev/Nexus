@@ -4,9 +4,7 @@ import io.github.tavstaldev.nexus.Nexus;
 import io.github.tavstaldev.nexus.command.CommandBase;
 import io.github.tavstaldev.nexus.util.MessageUtil;
 
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public final class StaffListCommand extends CommandBase {
     public StaffListCommand() {
