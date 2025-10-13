@@ -11,6 +11,7 @@ import io.github.tavstaldev.nexus.command.player.HelpopCommand;
 import io.github.tavstaldev.nexus.command.player.HubCommand;
 import io.github.tavstaldev.nexus.command.player.NexusCommand;
 import io.github.tavstaldev.nexus.command.player.ReportCommand;
+import io.github.tavstaldev.nexus.command.staff.ReportListCommand;
 import io.github.tavstaldev.nexus.command.staff.StaffListCommand;
 
 import java.util.HashSet;
@@ -38,6 +39,7 @@ public class CommandManager {
         var reportConfig = config.getPlayerReport();
         if (reportConfig.isEnabled()) {
             registeredCommands.add(new ReportCommand(reportConfig.getPermission(), reportConfig.getAliases().toArray(new String[0])));
+            registeredCommands.add(new ReportListCommand());
         }
         // Hub command
         registeredCommands.add(new HubCommand());
