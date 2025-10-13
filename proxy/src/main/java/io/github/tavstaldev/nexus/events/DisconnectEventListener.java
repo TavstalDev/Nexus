@@ -19,6 +19,9 @@ public class DisconnectEventListener {
 
     @Subscribe
     public void onDisconnect(DisconnectEvent event) {
+        if (event.getLoginStatus() == DisconnectEvent.LoginStatus.PRE_SERVER_JOIN)
+            return;
+
         Player player = event.getPlayer();
         Nexus.plugin.getStaffManager().removeStaff(player.getUniqueId());
         if (!player.hasPermission("nexus.staff")) {
