@@ -109,7 +109,9 @@ public class Messages {
     private String maintenancePlayerAlreadyAllowed = "%prefix% &cPlayer &e%player% &cis already in the maintenance allow list.";
     private String maintenancePlayerNotAllowed = "%prefix% &cPlayer &e%player% &cis not in the maintenance allow list.";
     private String maintenanceListEmpty = "%prefix% &cThe maintenance allow list is empty.";
+    private String maintenanceListHeader = "&8&m                               ";
     private String maintenanceListFormat = "&e%player%";
+    private String maintenanceListFooter = "&8&m                               ";
 
     public String getMaintenanceAlreadyEnabled() {
         return maintenanceAlreadyEnabled;
@@ -153,6 +155,14 @@ public class Messages {
 
     public String getMaintenanceListFormat() {
         return maintenanceListFormat;
+    }
+
+    public String getMaintenanceListHeader() {
+        return maintenanceListHeader;
+    }
+
+    public String getMaintenanceListFooter() {
+        return maintenanceListFooter;
     }
     //#endregion
 
