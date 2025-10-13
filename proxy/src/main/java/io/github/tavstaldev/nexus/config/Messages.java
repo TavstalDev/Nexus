@@ -227,9 +227,34 @@ public class Messages {
 
     //#region Player Report
     private String playerReportSelf = "%prefix% &cYou cannot report yourself.";
+    private String playerReportEmpty = "%prefix% &aThere are no reports.";
+    private String playerReportCount = "%prefix% &aThere are &e%count% &areports.";
+    private String playerReportHeader = "&8&m                               ";
+    private String playerReportFooter = "&8&m                               ";
+    private String playerReportFormat = "&e%player% &7reported &e%reported%&7, reason:\n&8- &f%reason%";
 
     public String getPlayerReportSelf() {
         return playerReportSelf;
+    }
+
+    public String getPlayerReportEmpty() {
+        return playerReportEmpty;
+    }
+
+    public String getPlayerReportCount() {
+        return playerReportCount;
+    }
+
+    public String getPlayerReportHeader() {
+        return playerReportHeader;
+    }
+
+    public String getPlayerReportFooter() {
+        return playerReportFooter;
+    }
+
+    public String getPlayerReportFormat() {
+        return playerReportFormat;
     }
     //#endregion
 
