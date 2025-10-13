@@ -4,14 +4,18 @@ import com.velocitypowered.api.proxy.Player;
 import io.github.tavstaldev.nexus.Nexus;
 import io.github.tavstaldev.nexus.command.CommandBase;
 import io.github.tavstaldev.nexus.config.maintenance.MaintenancePlayer;
+import io.github.tavstaldev.nexus.util.ChatUtil;
 import io.github.tavstaldev.nexus.util.MessageUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class MaintenanceCommand extends CommandBase {
     public MaintenanceCommand() {
         super("maintenance",
-                "<add|remove|list|on|off>",
+                "<add|remove|list|on|off|kickall>",
                 "Toggles maintenance mode on or off.",
                 "nexus.command.maintenance",
                 new String[]{"maintain"}
@@ -110,6 +114,7 @@ public class MaintenanceCommand extends CommandBase {
                 if (page > totalPages)
                     page = totalPages;
 
+                MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceListHeader());
                 for (int i = 0; i < itemsPerPage; i++) {
                     int index = (page - 1) * itemsPerPage + i;
                     if (index >= allowedPlayers.length)
@@ -119,6 +124,10 @@ public class MaintenanceCommand extends CommandBase {
                             "player", playerName
                     ));
                 }
+                MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceListFooter(), Map.of(
+                        "current", page,
+                        "max", totalPages
+                ));
                 break;
             }
             case "on": {
@@ -148,6 +157,15 @@ public class MaintenanceCommand extends CommandBase {
                 MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceDisabled());
                 break;
             }
+            case "kickall": {
+                var serializedFormat = ChatUtil.translateColors(String.join("\n", Nexus.plugin.getMessages().getMaintenanceKickMessage()), true);
+                for (var player : Nexus.plugin.getProxy().getAllPlayers()) {
+                    if (!config.isPlayerAllowed(player)) {
+                        player.disconnect(serializedFormat);
+                    }
+                }
+                break;
+            }
             default:
             {
                 MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getGeneralCommandSyntax(), Map.of(
@@ -157,5 +175,44 @@ public class MaintenanceCommand extends CommandBase {
                 break;
             }
         }
+    }
+
+    @Override
+    public CompletableFuture<List<String>> suggestAsync(Invocation invocation) {
+        var args = invocation.arguments();
+        switch (args.length)
+        {
+            case 0: {
+                List<String> commandList = new ArrayList<>(List.of("add", "remove", "list", "on", "off", "kickall"));
+                return CompletableFuture.supplyAsync(() -> commandList);
+            }
+            case 1: {
+                List<String> commandList = new ArrayList<>(List.of("add", "remove", "list", "on", "off", "kickall"));
+                commandList.removeIf(cmd -> !cmd.toLowerCase().startsWith(args[0].toLowerCase()));
+                return CompletableFuture.supplyAsync(() -> commandList);
+            }
+            case 2: {
+                String subcommand = args[0].toLowerCase();
+                switch (subcommand) {
+                    case "add": {
+                        List<String> commandList = new ArrayList<>();
+                        Nexus.plugin.getProxy().getAllPlayers().forEach(x -> {
+                            commandList.add(x.getUsername());
+                        });
+                        return CompletableFuture.supplyAsync(() -> commandList);
+                    }
+                    case "remove": {
+                        List<String> commandList = new ArrayList<>();
+                        var config = Nexus.plugin.getMaintenanceSettings();
+                        var allowedPlayers = config.getPlayers().toArray(new MaintenancePlayer[0]);
+                        for (var p : allowedPlayers) {
+                            commandList.add(p.getName());
+                        }
+                        return CompletableFuture.supplyAsync(() -> commandList);
+                    }
+                }
+            }
+        }
+        return super.suggestAsync(invocation);
     }
 }

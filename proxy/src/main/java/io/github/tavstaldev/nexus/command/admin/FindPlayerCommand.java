@@ -4,7 +4,10 @@ import io.github.tavstaldev.nexus.Nexus;
 import io.github.tavstaldev.nexus.command.CommandBase;
 import io.github.tavstaldev.nexus.util.MessageUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class FindPlayerCommand extends CommandBase {
     public FindPlayerCommand() {
@@ -45,5 +48,28 @@ public class FindPlayerCommand extends CommandBase {
                     "server", server.getServer().getServerInfo().getName()
             ));
         }
+    }
+
+    @Override
+    public CompletableFuture<List<String>> suggestAsync(Invocation invocation) {
+        var args = invocation.arguments();
+        switch (args.length) {
+            case 0: {
+                List<String> commandList = new ArrayList<>();
+                Nexus.plugin.getProxy().getAllPlayers().forEach(x -> {
+                    commandList.add(x.getUsername());
+                });
+                return CompletableFuture.supplyAsync(() -> commandList);
+            }
+            case 1: {
+                List<String> commandList = new ArrayList<>();
+                Nexus.plugin.getProxy().getAllPlayers().forEach(x -> {
+                    commandList.add(x.getUsername());
+                });
+                commandList.removeIf(cmd -> !cmd.toLowerCase().startsWith(args[0].toLowerCase()));
+                return CompletableFuture.supplyAsync(() -> commandList);
+            }
+        }
+        return super.suggestAsync(invocation);
     }
 }

@@ -12,9 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ReportCommand extends CommandBase {
@@ -98,5 +97,17 @@ public class ReportCommand extends CommandBase {
         Nexus.plugin.getProxy().getAllPlayers().stream()
                 .filter(otherPlayer -> otherPlayer.hasPermission(staffPermission) || otherPlayer.equals(player))
                 .forEach(otherPlayer -> otherPlayer.sendMessage(msg));
+    }
+
+    @Override
+    public CompletableFuture<List<String>> suggestAsync(Invocation invocation) {
+        var args = invocation.arguments();
+        if (args.length != 2) {
+            return super.suggestAsync(invocation);
+        }
+
+        List<String> commandList = new ArrayList<>(Nexus.plugin.getConfig().getPlayerReport().getReportTemplates());
+        commandList.removeIf(cmd -> !cmd.toLowerCase().startsWith(args[1].toLowerCase()));
+        return CompletableFuture.supplyAsync(() -> commandList);
     }
 }
