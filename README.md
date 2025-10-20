@@ -7,7 +7,7 @@
 ![Issues](https://img.shields.io/github/issues/TavstalDev/Nexus?style=plastic-square)
 
 ## Description
-Nexus is the core velocity plugin of the MesterMC network. It provides essential features and functionalities required for the smooth operation of the network.
+Nexus is a velocity plugin that enhances the management of a Minecraft server network by providing essential features for staff and players.
 
 ## Features
 - Cross-server permission based chats
