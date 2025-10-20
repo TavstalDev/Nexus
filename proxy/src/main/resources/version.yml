@@ -1,0 +1,2 @@
+# Temporal solution for the workflow engine to read the application version
+version: '1.0.0'
