@@ -33,7 +33,12 @@ public class LobbyServerManager {
             Nexus.plugin.getProxy().getServer(serverName).ifPresent(server -> lobbyServers.put(server, true));
         }
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
-        executorService.scheduleAtFixedRate(this::checkServerStatus, 0L, 500L, TimeUnit.MILLISECONDS);
+        try {
+            executorService.scheduleAtFixedRate(this::checkServerStatus, 0L, 500L, TimeUnit.MILLISECONDS);
+        }
+        catch (Exception ex) {
+            Nexus.plugin.getLogger().error("Failed to start lobby server status checker task:\n" + ex.getMessage());
+        }
     }
 
     /**

@@ -9,7 +9,7 @@ import java.util.Set;
 
 @ConfigSerializable
 public class MaintenanceSettings {
-    private boolean enabled = false;
+    private boolean enabled;
     private Set<MaintenancePlayer> players;
 
     public MaintenanceSettings() {
