@@ -18,7 +18,6 @@ public class PluginLogger {
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
 
     // The underlying SLF4J logger instance.
     private final Logger _logger = LoggerFactory.getLogger("nexusProxy");
@@ -48,6 +47,7 @@ public class PluginLogger {
      * @param module The name of the module to associate with the new logger.
      * @return A new PluginLogger instance with the specified module name.
      */
+    @SuppressWarnings("unused")
     public PluginLogger withModule(String module) {
         return new PluginLogger(module);
     }
