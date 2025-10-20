@@ -5,6 +5,7 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.util.Set;
 
+@SuppressWarnings("FieldMayBeFinal")
 @ConfigSerializable
 public class HelpopConfig {
     @Comment("Should the helpop system be enabled?")

@@ -5,6 +5,7 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.util.Set;
 
+@SuppressWarnings("FieldMayBeFinal")
 @ConfigSerializable
 public class CustomChatConfig {
     @Comment("Should this custom chat be enabled?")

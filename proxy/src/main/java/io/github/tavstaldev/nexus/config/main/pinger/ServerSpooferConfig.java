@@ -3,6 +3,7 @@ package io.github.tavstaldev.nexus.config.main.pinger;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 
+@SuppressWarnings("FieldMayBeFinal")
 @ConfigSerializable
 public class ServerSpooferConfig {
     @Comment("Should the server spoofer be enabled?")

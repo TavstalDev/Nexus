@@ -12,7 +12,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * The MaintenanceCommand class handles the "maintenance" command, which allows
+ * administrators to toggle maintenance mode, manage allowed players, and perform
+ * related actions such as kicking all players.
+ */
 public class MaintenanceCommand extends CommandBase {
+
+    /**
+     * Constructs a MaintenanceCommand instance with predefined command details.
+     */
     public MaintenanceCommand() {
         super("maintenance",
                 "<add|remove|list|on|off|kickall>",
@@ -22,6 +31,14 @@ public class MaintenanceCommand extends CommandBase {
         );
     }
 
+    /**
+     * Executes the "maintenance" command. Handles various subcommands such as
+     * adding/removing players, listing allowed players, enabling/disabling maintenance mode,
+     * and kicking all players.
+     *
+     * @param invocation The invocation context of the command, containing the source
+     *                   and arguments.
+     */
     @Override
     public void execute(final Invocation invocation) {
         var source = invocation.source();
@@ -37,6 +54,7 @@ public class MaintenanceCommand extends CommandBase {
         var config = Nexus.plugin.getMaintenanceSettings();
         switch (subcommand) {
             case "add": {
+                // Adds a player to the maintenance whitelist.
                 if (invocation.arguments().length != 2) {
                     MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getGeneralCommandSyntax(), Map.of(
                             "syntax", " add <player>",
@@ -65,6 +83,7 @@ public class MaintenanceCommand extends CommandBase {
                 break;
             }
             case "remove": {
+                // Removes a player from the maintenance whitelist.
                 if (invocation.arguments().length != 2) {
                     MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getGeneralCommandSyntax(), Map.of(
                             "syntax", " remove <player>",
@@ -89,6 +108,7 @@ public class MaintenanceCommand extends CommandBase {
                 break;
             }
             case "list": {
+                // Lists all players allowed during maintenance mode, paginated.
                 int page = 1;
                 if (invocation.arguments().length >= 2) {
                     try {
@@ -131,6 +151,7 @@ public class MaintenanceCommand extends CommandBase {
                 break;
             }
             case "on": {
+                // Enables maintenance mode.
                 if (config.isEnabled()) {
                     MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceAlreadyEnabled());
                     return;
@@ -147,6 +168,7 @@ public class MaintenanceCommand extends CommandBase {
                 break;
             }
             case "off": {
+                // Disables maintenance mode.
                 if (!config.isEnabled()) {
                     MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getMaintenanceAlreadyDisabled());
                     return;
@@ -158,6 +180,7 @@ public class MaintenanceCommand extends CommandBase {
                 break;
             }
             case "kickall": {
+                // Kicks all players not on the maintenance whitelist.
                 var serializedFormat = ChatUtil.translateColors(String.join("\n", Nexus.plugin.getMessages().getMaintenanceKickMessage()), true);
                 for (var player : Nexus.plugin.getProxy().getAllPlayers()) {
                     if (!config.isPlayerAllowed(player)) {
@@ -166,8 +189,8 @@ public class MaintenanceCommand extends CommandBase {
                 }
                 break;
             }
-            default:
-            {
+            default: {
+                // Handles invalid subcommands.
                 MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getGeneralCommandSyntax(), Map.of(
                         "syntax", this.syntax,
                         "command", this.baseCommand
@@ -177,21 +200,31 @@ public class MaintenanceCommand extends CommandBase {
         }
     }
 
+    /**
+     * Provides asynchronous suggestions for the "maintenance" command.
+     * Suggestions vary based on the subcommand and current input.
+     *
+     * @param invocation The invocation context of the command, containing the source
+     *                   and arguments.
+     * @return A CompletableFuture containing a list of suggested subcommands or player names.
+     */
     @Override
     public CompletableFuture<List<String>> suggestAsync(Invocation invocation) {
         var args = invocation.arguments();
-        switch (args.length)
-        {
+        switch (args.length) {
             case 0: {
+                // Suggests all subcommands.
                 List<String> commandList = new ArrayList<>(List.of("add", "remove", "list", "on", "off", "kickall"));
                 return CompletableFuture.supplyAsync(() -> commandList);
             }
             case 1: {
+                // Filters subcommands based on input.
                 List<String> commandList = new ArrayList<>(List.of("add", "remove", "list", "on", "off", "kickall"));
                 commandList.removeIf(cmd -> !cmd.toLowerCase().startsWith(args[0].toLowerCase()));
                 return CompletableFuture.supplyAsync(() -> commandList);
             }
             case 2: {
+                // Suggests player names for "add" or "remove" subcommands.
                 String subcommand = args[0].toLowerCase();
                 switch (subcommand) {
                     case "add": {

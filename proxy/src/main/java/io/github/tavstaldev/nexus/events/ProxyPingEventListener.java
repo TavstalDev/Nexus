@@ -14,13 +14,31 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * The ProxyPingEventListener class listens for ProxyPingEvent events and modifies
+ * the server ping response based on the server's configuration. This includes
+ * customizing the MOTD, player count, and server favicon.
+ */
 public class ProxyPingEventListener implements AwaitingEventExecutor<ProxyPingEvent> {
+
+    /**
+     * Registers the ProxyPingEventListener with the Velocity event manager.
+     * This allows the listener to handle ProxyPingEvent events.
+     */
     public void register() {
         var plugin = Nexus.plugin;
         plugin.getProxy().getEventManager().register(plugin, ProxyPingEvent.class, this);
         plugin.getLogger().debug("Registered ProxyPingEventListener");
     }
 
+    /**
+     * Handles the ProxyPingEvent asynchronously. Modifies the server ping response
+     * based on the configuration, including player count spoofing, MOTD selection,
+     * and favicon customization.
+     *
+     * @param event The ProxyPingEvent containing the ping request and response details.
+     * @return An EventTask that executes the ping modification logic asynchronously, or null if no action is needed.
+     */
     public @Nullable EventTask executeAsync(ProxyPingEvent event) {
         return EventTask.async(() -> {
             var config = Nexus.plugin.getConfig();
@@ -68,9 +86,17 @@ public class ProxyPingEventListener implements AwaitingEventExecutor<ProxyPingEv
         });
     }
 
+    /**
+     * Selects a random MOTD (Message of the Day) from the configured list of MOTDs.
+     * If only one MOTD is available, it is returned directly. If no MOTDs are found,
+     * a default message is returned.
+     *
+     * @return A Component representing the selected MOTD.
+     */
     private Component selectMotd() {
         var motds = Nexus.plugin.getConfig().getServerPinger().getMotds();
         if (motds.isEmpty()) {
+            Nexus.plugin.getLogger().warn("No motds found in configuration!");
             return Component.text("No motds found!");
         }
         // If only one motd is found, return it directly

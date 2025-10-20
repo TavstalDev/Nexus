@@ -14,15 +14,34 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The CommandEventListener class listens for command execution events and implements
+ * anti-crash functionality by limiting the number of commands a player can execute
+ * within a specified time frame.
+ */
 public class CommandEventListener implements AwaitingEventExecutor<CommandExecuteEvent> {
+    /**
+     * A map that tracks the number of commands executed by each player, identified by their UUID.
+     */
     private static final Map<UUID, Integer> executions = new ConcurrentHashMap<>();
 
+    /**
+     * Registers the CommandEventListener with the Velocity event manager.
+     * This allows the listener to handle CommandExecuteEvent events.
+     */
     public void register() {
         var plugin = Nexus.plugin;
         plugin.getProxy().getEventManager().register(plugin, CommandExecuteEvent.class, this);
         plugin.getLogger().debug("Registered CommandEventListener");
     }
 
+    /**
+     * Handles the CommandExecuteEvent asynchronously. Implements anti-crash functionality
+     * by disconnecting players who exceed the allowed number of commands within the configured time frame.
+     *
+     * @param event The CommandExecuteEvent containing the command source and other details.
+     * @return An EventTask that executes the anti-crash logic asynchronously, or null if the source is not a player.
+     */
     public @Nullable EventTask executeAsync(CommandExecuteEvent event) {
         return EventTask.async(() -> {
             CommandSource source = event.getCommandSource();

@@ -3,6 +3,7 @@ package io.github.tavstaldev.nexus.config.main;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 
+@SuppressWarnings("FieldMayBeFinal")
 @ConfigSerializable
 public class AntiCrashHandlerConfig {
     @Comment("Should the anti-crash handler be enabled?")

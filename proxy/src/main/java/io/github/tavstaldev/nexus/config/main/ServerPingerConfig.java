@@ -8,6 +8,7 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.util.List;
 
+@SuppressWarnings("FieldMayBeFinal")
 @ConfigSerializable
 public class ServerPingerConfig {
     @Comment("Should the server pinger be enabled?")

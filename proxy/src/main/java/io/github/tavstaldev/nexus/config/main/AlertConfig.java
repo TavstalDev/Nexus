@@ -5,6 +5,7 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.util.Set;
 
+@SuppressWarnings("FieldMayBeFinal")
 @ConfigSerializable
 public class AlertConfig {
     @Comment("Should alerts be enabled?")

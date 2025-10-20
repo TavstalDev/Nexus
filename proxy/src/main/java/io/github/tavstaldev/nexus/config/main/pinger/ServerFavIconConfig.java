@@ -3,6 +3,7 @@ package io.github.tavstaldev.nexus.config.main.pinger;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 
+@SuppressWarnings("FieldMayBeFinal")
 @ConfigSerializable
 public class ServerFavIconConfig {
     @Comment("Should the server favicon be enabled?")

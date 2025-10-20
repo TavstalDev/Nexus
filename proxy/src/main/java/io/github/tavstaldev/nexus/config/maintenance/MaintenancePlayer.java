@@ -4,6 +4,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.time.LocalDateTime;
 
+@SuppressWarnings("FieldMayBeFinal")
 @ConfigSerializable
 public class MaintenancePlayer {
     private String name;

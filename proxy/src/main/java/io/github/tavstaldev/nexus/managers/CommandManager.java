@@ -17,14 +17,20 @@ import io.github.tavstaldev.nexus.command.staff.StaffListCommand;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The CommandManager class is responsible for managing the registration and unregistration
+ * of commands in the Nexus plugin. It dynamically registers commands based on the plugin's
+ * configuration and ensures proper cleanup when commands are unregistered.
+ */
 public class CommandManager {
+    // A set to store all registered commands.
     private final Set<CommandBase> registeredCommands = new HashSet<>();
 
-    // TODO: Implement command registration and unregistration
-    // Make commands extend CommandBase and register them here
-    // Commands: nexus, alert, helpop, report, hub/lobby, stafflist customChat, maintenance
-    // findplayer, sendplayer, helpmsg/helpreply
-
+    /**
+     * Registers all commands based on the plugin's configuration. This includes
+     * commands for players, staff, and administrators, as well as custom chat commands.
+     * Commands are cleared and re-registered to ensure no duplicates exist.
+     */
     public void registerCommands() {
         registeredCommands.clear();
         // Main command
@@ -69,11 +75,16 @@ public class CommandManager {
         // Send player command
         registeredCommands.add(new SendPlayerCommand());
 
+        // Register each command in the set.
         for (CommandBase command : registeredCommands) {
             command.register();
         }
     }
 
+    /**
+     * Unregisters all commands that were previously registered. This ensures
+     * that no commands remain active when they are no longer needed.
+     */
     public void unregisterCommands() {
         for (CommandBase command : registeredCommands) {
             command.unregister();

@@ -5,6 +5,7 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.util.Set;
 
+@SuppressWarnings("FieldMayBeFinal")
 @ConfigSerializable
 public class PlayerReportConfig {
     @Comment("Should the player report system be enabled?")
