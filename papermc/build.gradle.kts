@@ -53,7 +53,7 @@ tasks.jar {
 
 // Configure the Shadow JAR task
 tasks.shadowJar {
-    archiveBaseName.set("NexusPlugin")
+    archiveBaseName.set("nexus-paper")
     archiveClassifier.set("") // Set the classifier for the JAR
     manifest {
         attributes["paperweight-mappings-namespace"] = "spigot" // Add custom manifest attributes
