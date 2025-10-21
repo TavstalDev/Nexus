@@ -67,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: plugin-jar
-          path: '*/build/libs/*.jar'
+          path: proxy/build/libs/*.jar
 
   release:
     name: Create GitHub Pre-release
