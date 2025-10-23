@@ -1,15 +1,14 @@
 package io.github.tavstaldev.nexus.config;
 
 import io.github.tavstaldev.nexus.Nexus;
+import io.github.tavstaldev.nexus.config.reporting.Report;
 import io.github.tavstaldev.nexus.logger.PluginLogger;
-import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.gson.GsonConfigurationLoader;
 import org.spongepowered.configurate.yaml.NodeStyle;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.nio.file.Path;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ConfigurationLoader {
@@ -20,7 +19,7 @@ public class ConfigurationLoader {
     private final Path MESSAGES_PATH;
     private Settings settings;
     private MaintenanceSettings maintenanceSettings;
-    private Set<Report> reports;
+    private ReportData reportData;
     private Messages messages;
 
     public ConfigurationLoader() {
@@ -116,15 +115,15 @@ public class ConfigurationLoader {
                 .path(REPORT_PATH)
                 .build();
         try {
-            final BasicConfigurationNode node = loader.load();
-            final var settings = node.getList(Report.class);
-            if (settings == null) {
-                this.reports = new LinkedHashSet<>();
+            final var node = loader.load();
+            final ReportData report = node.get(ReportData.class);
+            if (report == null) {
+                this.reportData = new ReportData();
                 saveReports();
-                logger.error("Failed to load reports.yml, using default settings.");
+                logger.error("Failed to load reports.yml, creating default file.");
                 return;
             }
-            this.reports = new LinkedHashSet<>(settings);
+            this.reportData = report;
             loader.save(node);
             logger.info("Loaded reports.yml successfully.");
         } catch (Exception e) {
@@ -137,8 +136,8 @@ public class ConfigurationLoader {
                 .path(REPORT_PATH)
                 .build();
         try {
-            final BasicConfigurationNode node = loader.createNode();
-            node.setList(Report.class, reports.stream().toList());
+            final var node = loader.createNode();
+            node.set(ReportData.class, reportData);
             loader.save(node);
             logger.info("Saved reports.yml successfully.");
         } catch (Exception e) {
@@ -191,8 +190,12 @@ public class ConfigurationLoader {
         return maintenanceSettings;
     }
 
+    public ReportData getReportData() {
+        return reportData;
+    }
+
     public Set<Report> getReports() {
-        return reports;
+        return reportData.getReports();
     }
 
     public Messages getMessages() {

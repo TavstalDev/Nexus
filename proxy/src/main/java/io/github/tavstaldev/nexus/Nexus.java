@@ -9,6 +9,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.scheduler.ScheduledTask;
 import io.github.tavstaldev.nexus.config.*;
+import io.github.tavstaldev.nexus.config.reporting.Report;
 import io.github.tavstaldev.nexus.events.*;
 import io.github.tavstaldev.nexus.logger.PluginLogger;
 import io.github.tavstaldev.nexus.managers.CommandManager;
@@ -98,8 +99,11 @@ public class Nexus {
             this.registerListeners();
             final long expirationTime = Duration.ofDays(1).toMillis();
             this.reportCleanerTask = this.proxy.getScheduler().buildTask(this, () -> {
-                Set<Report> reports = this.getReports();
                 final long currentTime = System.currentTimeMillis();
+                final Set<Report> reports = this.getReports();
+                if (reports == null)
+                    return;
+
                 if (reports.removeIf(x -> currentTime - x.getTimestamp() > expirationTime)) {
                     this.getConfigurationLoader().saveReports();
                 }
@@ -209,6 +213,15 @@ public class Nexus {
      */
     public MaintenanceSettings getMaintenanceSettings() {
         return configurationLoader.getMaintenanceSettings();
+    }
+
+    /**
+     * Retrieves the report data managed by the plugin.
+     *
+     * @return The ReportData instance containing information about reports.
+     */
+    public ReportData getReportData() {
+        return configurationLoader.getReportData();
     }
 
     /**

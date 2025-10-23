@@ -1,4 +1,4 @@
-package io.github.tavstaldev.nexus.config;
+package io.github.tavstaldev.nexus.config.reporting;
 
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
