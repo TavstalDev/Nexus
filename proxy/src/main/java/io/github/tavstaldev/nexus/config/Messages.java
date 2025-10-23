@@ -227,6 +227,7 @@ public class Messages {
 
     //#region Player Report
     private String playerReportSelf = "%prefix% &cYou cannot report yourself.";
+    private String playerReportBypass = "%prefix% &cYou cannot report this player.";
     private String playerReportEmpty = "%prefix% &aThere are no reports.";
     private String playerReportCount = "%prefix% &aThere are &e%count% &areports.";
     private String playerReportHeader = "&8&m                               ";
@@ -235,6 +236,10 @@ public class Messages {
 
     public String getPlayerReportSelf() {
         return playerReportSelf;
+    }
+
+    public String getPlayerReportBypass() {
+        return playerReportBypass;
     }
 
     public String getPlayerReportEmpty() {

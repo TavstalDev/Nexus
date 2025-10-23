@@ -22,6 +22,9 @@ public class PlayerReportConfig {
     private String permission;
     @Comment("Permission node required to see report messages.")
     private String notifyPermission;
+    @Comment("Permission node that prevents players from being reported.")
+    private String bypassPermission;
+
     @Comment("Set of report templates that players can choose from when reporting")
     private final Set<String> reportTemplates;
 
@@ -33,10 +36,11 @@ public class PlayerReportConfig {
         format = "&8(&c<hover:show_text:'&cReport'>\uD83D\uDEA8</hover>&8) &8» &f{reporter} &7reported &f{reported} &7on &f{server} &7for &f{reason}";
         permission = "nexus.report.use";
         notifyPermission = "nexus.report.notify";
+        bypassPermission = "nexus.report.bypass";
         reportTemplates = Set.of("Griefing", "Cheating", "Harassment", "Spamming", "Other");
     }
 
-    public PlayerReportConfig(boolean enabled, boolean notifyOnLogin, Set<String> aliases, int cooldown, String format, String permission, String notifyPermission, Set<String> reportTemplates) {
+    public PlayerReportConfig(boolean enabled, boolean notifyOnLogin, Set<String> aliases, int cooldown, String format, String permission, String notifyPermission, String bypassPermission, Set<String> reportTemplates) {
         this.enabled = enabled;
         this.notifyOnLogin = notifyOnLogin;
         this.aliases = aliases;
@@ -44,6 +48,7 @@ public class PlayerReportConfig {
         this.format = format;
         this.permission = permission;
         this.notifyPermission = notifyPermission;
+        this.bypassPermission = bypassPermission;
         this.reportTemplates = reportTemplates;
     }
 
@@ -74,6 +79,8 @@ public class PlayerReportConfig {
     public String getNotifyPermission() {
         return notifyPermission;
     }
+
+    public String getBypassPermission() { return bypassPermission; }
 
     public Set<String> getReportTemplates() {
         return reportTemplates;

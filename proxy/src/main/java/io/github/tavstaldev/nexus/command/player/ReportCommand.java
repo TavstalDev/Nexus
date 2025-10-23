@@ -5,7 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.velocitypowered.api.proxy.Player;
 import io.github.tavstaldev.nexus.Nexus;
 import io.github.tavstaldev.nexus.command.CommandBase;
-import io.github.tavstaldev.nexus.config.Report;
+import io.github.tavstaldev.nexus.config.reporting.Report;
 import io.github.tavstaldev.nexus.util.ChatUtil;
 import io.github.tavstaldev.nexus.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
@@ -94,6 +94,12 @@ public class ReportCommand extends CommandBase {
         // Retrieve the report configuration.
         var config = Nexus.plugin.getConfig().getPlayerReport();
 
+        // Prevent reporting players with bypass permission.
+        if (reported.hasPermission(config.getBypassPermission())) {
+            MessageUtil.sendRichMsg(source, Nexus.plugin.getMessages().getPlayerReportBypass());
+            return;
+        }
+
         // Check if the player is on cooldown.
         if (config.getCooldown() > 0) {
             var nextAllowedUseTime = cooldownCache.getIfPresent(player.getUniqueId());
@@ -119,7 +125,7 @@ public class ReportCommand extends CommandBase {
         String serverName = player.getCurrentServer().isPresent() ? player.getCurrentServer().get().getServerInfo().getName() : "?????";
 
         // Save the report in the configuration.
-        Nexus.plugin.getReports().add(new Report(reporterName, player.getUniqueId(), reportedName, reported.getUniqueId(), reason, serverName, System.currentTimeMillis()));
+        Nexus.plugin.getReportData().add(new Report(reporterName, player.getUniqueId(), reportedName, reported.getUniqueId(), reason, serverName, System.currentTimeMillis()));
         Nexus.plugin.getConfigurationLoader().saveReports();
 
         // Notify staff members and the reporting player about the report.

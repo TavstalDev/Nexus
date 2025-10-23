@@ -48,6 +48,7 @@ public class Settings {
                 "&4&l[<hover:show_text:'&cJelentés'>Report</hover>]&r &2%player% &ajelentette &2%reported%&a-t &8» &7%reason%",
                 "nexus.report.use",
                 "nexus.report.notify",
+                "nexus.report.bypass",
                 Set.of("Griefing", "Cheating", "Harassment", "Spamming", "Other")
         );
         this.helpop = new HelpopConfig(
