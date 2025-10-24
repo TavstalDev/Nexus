@@ -45,7 +45,7 @@ public class Settings {
                 true,
                 Set.of("report", "preport", "playerreport"),
                 3,
-                "&4&l[<hover:show_text:'&cJelentés'>Report</hover>]&r &2%player% &ajelentette &2%reported%&a-t &8» &7%reason%",
+                "&4&l[<hover:show_text:'&cPlayer Report'>Report</hover>]&r &2%player% &areported &2%reported% &8» &7%reason%",
                 "nexus.report.use",
                 "nexus.report.notify",
                 "nexus.report.bypass",
@@ -80,7 +80,7 @@ public class Settings {
                 ));
         this.serverPinger = new ServerPingerConfig(
                 true,
-                List.of(new ServerMotdConfig(new ServerFavIconConfig(), "&f&lMester&6&lMC&r  &eElosztó  &8[&61.21.х&8]", "&7ѕᴜʀᴠɪᴠᴀʟ, ʙᴇᴅᴡᴀʀѕ, ѕᴋʏᴘᴠᴘ, ᴋʀᴇᴀᴛíᴠ")),
+                List.of(new ServerMotdConfig(new ServerFavIconConfig(), "&b&lExample &8[&31.21.х&8]", "&8> &7Welcome to the &bExample&7 network!")),
                 new ServerSpooferConfig(),
                 new ServerFavIconConfig()
         );

@@ -18,7 +18,7 @@ public class AntiCrashHandlerConfig {
     public AntiCrashHandlerConfig() {
         enabled = true;
         commandLimit = 10;
-        message = "Túl sok üzenetet küldesz egyszerre!";
+        message = "You are sending too many commands! Please slow down.";
         clearTime = 1000;
     }
 
