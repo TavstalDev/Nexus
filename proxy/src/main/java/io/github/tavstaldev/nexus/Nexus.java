@@ -16,10 +16,13 @@ import io.github.tavstaldev.nexus.managers.CommandManager;
 import io.github.tavstaldev.nexus.managers.FavIconManager;
 import io.github.tavstaldev.nexus.managers.LobbyServerManager;
 import io.github.tavstaldev.nexus.managers.StaffManager;
+import io.github.tavstaldev.nexus.metrics.Metrics;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -65,6 +68,8 @@ public class Nexus {
     // The manager for handling lobby server status and selection.
     private LobbyServerManager lobbyServerManager;
 
+    private final Metrics.Factory metricsFactory;
+
     /**
      * Constructs the Nexus plugin instance.
      *
@@ -72,8 +77,9 @@ public class Nexus {
      * @param dataFolder The data folder path for the plugin.
      */
     @Inject
-    public Nexus(ProxyServer proxy, @DataDirectory @NotNull Path dataFolder) {
+    public Nexus(ProxyServer proxy, @DataDirectory @NotNull Path dataFolder, Metrics.Factory metricsFactory) {
         plugin = this;
+        this.metricsFactory = metricsFactory;
         this.proxy = proxy;
         this.dataFolder = dataFolder;
         pluginLogger = new PluginLogger();
@@ -109,6 +115,28 @@ public class Nexus {
                 }
             }).delay(1, TimeUnit.MINUTES).repeat(60, TimeUnit.MINUTES).schedule();
 
+            //#region Metrics
+            try {
+                Metrics metrics = metricsFactory.make(this, NexusConstants.BSTATS_ID);
+                metrics.addCustomChart(new Metrics.SingleLineChart("servers", () -> 1));
+                metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> proxy.getAllPlayers().size()));
+                metrics.addCustomChart(new Metrics.SingleLineChart("managed_servers", () -> proxy.getAllServers().size()));
+                Map<String, Integer> onlineModeMap = new HashMap<>();
+                if (proxy.getConfiguration().isOnlineMode())
+                    onlineModeMap.put("Online", 1);
+                else
+                    onlineModeMap.put("Offline", 1);
+                metrics.addCustomChart(new Metrics.AdvancedPie("onlineMode", () -> onlineModeMap));
+                Map<String, Integer> pluginVersionMap = new HashMap<>();
+                pluginVersionMap.put(NexusConstants.VERSION, 1);
+                metrics.addCustomChart(new Metrics.AdvancedPie("pluginVersion", () -> pluginVersionMap));
+            }
+            catch (Exception ex)
+            {
+                pluginLogger.error("Failed to initialize metrics:");
+                pluginLogger.error(ex);
+            }
+            //#endregion
             pluginLogger.ok("nexusProxy v1.0.0 has been enabled!");
         }
         catch (Exception ex) {
