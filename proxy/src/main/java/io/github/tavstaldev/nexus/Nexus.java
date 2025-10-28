@@ -117,19 +117,7 @@ public class Nexus {
 
             //#region Metrics
             try {
-                Metrics metrics = metricsFactory.make(this, NexusConstants.BSTATS_ID);
-                metrics.addCustomChart(new Metrics.SingleLineChart("servers", () -> 1));
-                metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> proxy.getAllPlayers().size()));
-                metrics.addCustomChart(new Metrics.SingleLineChart("managed_servers", () -> proxy.getAllServers().size()));
-                Map<String, Integer> onlineModeMap = new HashMap<>();
-                if (proxy.getConfiguration().isOnlineMode())
-                    onlineModeMap.put("Online", 1);
-                else
-                    onlineModeMap.put("Offline", 1);
-                metrics.addCustomChart(new Metrics.AdvancedPie("onlineMode", () -> onlineModeMap));
-                Map<String, Integer> pluginVersionMap = new HashMap<>();
-                pluginVersionMap.put(NexusConstants.VERSION, 1);
-                metrics.addCustomChart(new Metrics.AdvancedPie("pluginVersion", () -> pluginVersionMap));
+                metricsFactory.make(this, NexusConstants.BSTATS_ID);
             }
             catch (Exception ex)
             {
