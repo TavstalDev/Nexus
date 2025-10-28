@@ -188,7 +188,7 @@ public class Messages {
     private String staffListHeader = "&8&m                               ";
     private String staffListFooter = "&8&m                               ";
     private String staffListNoStaff = "&7There are no staff members online.";
-    private String staffListFormat = "&e%player% &7- &6%server%";
+    private String staffListFormat = "%prefix% &e%player% %suffix%&7- &6%server%";
 
     public String getStaffListHeader() {
         return staffListHeader;

@@ -61,10 +61,13 @@ public final class StaffListCommand extends CommandBase {
 
         // Format and send the list of online staff members.
         var staffEntry = Nexus.plugin.getMessages().getStaffListFormat();
+        var prefixHelper = Nexus.plugin.getPrefixHelper();
         for (var staff : staffs) {
             MessageUtil.sendRichMsg(source, staffEntry, Map.of(
                     "player", staff.getUsername(),
-                    "server", staff.getCurrentServer().isPresent() ? staff.getCurrentServer().get().getServerInfo().getName() : "?????"
+                    "server", staff.getCurrentServer().isPresent() ? staff.getCurrentServer().get().getServerInfo().getName() : "?????",
+                    "prefix", prefixHelper.getPrefix(staff),
+                    "suffix", prefixHelper.getSuffix(staff)
             ));
         }
 

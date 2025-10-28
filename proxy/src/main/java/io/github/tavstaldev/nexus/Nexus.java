@@ -4,7 +4,9 @@ import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
+import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.scheduler.ScheduledTask;
@@ -17,12 +19,15 @@ import io.github.tavstaldev.nexus.managers.FavIconManager;
 import io.github.tavstaldev.nexus.managers.LobbyServerManager;
 import io.github.tavstaldev.nexus.managers.StaffManager;
 import io.github.tavstaldev.nexus.metrics.Metrics;
+import io.github.tavstaldev.nexus.models.FallbackPrefix;
+import io.github.tavstaldev.nexus.models.IPrefixHelper;
+import io.github.tavstaldev.nexus.models.LuckPrefix;
+import net.luckperms.api.LuckPermsProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +40,10 @@ import java.util.concurrent.TimeUnit;
         name = "nexusProxy",
         version = NexusConstants.VERSION,
         url = "https://tavstaldev.github.io",
-        authors = {"Tavstal"}
+        authors = {"Tavstal"},
+        dependencies = {
+                @Dependency(id = "luckperms", optional = true)
+        }
 )
 public class Nexus {
     // Static reference to the Nexus plugin instance.
@@ -69,6 +77,8 @@ public class Nexus {
     private LobbyServerManager lobbyServerManager;
 
     private final Metrics.Factory metricsFactory;
+
+    private IPrefixHelper prefixHelper;
 
     /**
      * Constructs the Nexus plugin instance.
@@ -114,6 +124,16 @@ public class Nexus {
                     this.getConfigurationLoader().saveReports();
                 }
             }).delay(1, TimeUnit.MINUTES).repeat(60, TimeUnit.MINUTES).schedule();
+
+
+            Optional<PluginContainer> luckPermsContainer = proxy.getPluginManager().getPlugin("luckperms");
+            if (luckPermsContainer.isPresent()) {
+                pluginLogger.info("LuckPerms found! Attempting to hook into API.");
+                prefixHelper = new LuckPrefix(LuckPermsProvider.get());
+            } else {
+                pluginLogger.warn("LuckPerms not found! Prefixes/suffixes will not be available.");
+                prefixHelper = new FallbackPrefix();
+            }
 
             //#region Metrics
             try {
@@ -265,5 +285,15 @@ public class Nexus {
      */
     public LobbyServerManager getLobbyServerManager() {
         return lobbyServerManager;
+    }
+
+    /**
+     * Retrieves the prefix helper for managing player prefixes.
+     *
+     * @return The IPrefixHelper instance.
+     */
+    public IPrefixHelper getPrefixHelper()
+    {
+        return prefixHelper;
     }
 }

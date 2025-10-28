@@ -76,8 +76,6 @@ public class ReportCommand extends CommandBase {
             return;
         }
 
-        // TODO: Add vanish check, but it probably needs to be implemented on paper instead of velocity.
-
         // Retrieve the reported player from the arguments.
         Player reported = Nexus.plugin.getProxy().getPlayer(args[0]).orElse(null);
         if (reported == null) {
