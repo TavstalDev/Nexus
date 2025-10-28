@@ -10,6 +10,7 @@ val velocityVer: String by project
 val configurateVersion: String by project
 val mineCoreLibVersion: String by project
 val guavaVersion: String by project
+val luckPermsVersion: String by project
 val projectPackageName = "${project.group}.nexus"
 
 // Configure Java toolchain and compatibility settings
@@ -39,6 +40,7 @@ repositories {
 dependencies {
     compileOnly("com.velocitypowered:velocity-api:${velocityVer}")
     annotationProcessor("com.velocitypowered:velocity-api:${velocityVer}")
+    compileOnly("net.luckperms:api:${luckPermsVersion}")
 
     // Core Configurate API
     implementation("org.spongepowered:configurate-core:${configurateVersion}")
