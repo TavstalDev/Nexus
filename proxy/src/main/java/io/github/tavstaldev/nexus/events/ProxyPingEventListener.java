@@ -50,10 +50,10 @@ public class ProxyPingEventListener implements AwaitingEventExecutor<ProxyPingEv
             ServerPing.Builder pong = event.getPing().asBuilder();
             int playerCount = 0;
             var targetServers = serverPinger.getSpoofer().getTargetServers();
+            var proxy = Nexus.plugin.getProxy();
             if (targetServers.length == 0) {
-                playerCount = pong.getOnlinePlayers();
+                playerCount = proxy.getPlayerCount();
             } else {
-                var proxy = Nexus.plugin.getProxy();
                 HashSet<ServerPing.SamplePlayer> players = new HashSet<>();
                 for (String predefinedServer : targetServers) {
                     RegisteredServer server = proxy.getServer(predefinedServer).orElse(null);
